@@ -1,0 +1,28 @@
+.abs-img {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+}
+
+.rel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.star-primary {
+	color: #000000;
+}
+
+.star-warning {
+	color: #ffcc00;
+}
+
+.star-primary:hover {
+    color: #ffcc00;
+}
+
+.star-warning:hover {
+	color: #000000;
+}
