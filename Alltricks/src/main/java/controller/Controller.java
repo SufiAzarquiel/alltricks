@@ -58,13 +58,52 @@ public class Controller extends HttpServlet {
 		switch (op) {
 		case "inicio": {
 			try {
-				bicis = new DAOBicis().getBicis(con, 0, 0);
+				bicis = new DAOBicis().getBicis(con, 0, "");
 				marcas = new DAOMarcas().getAllMarcas(con);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			session.setAttribute("bicis", bicis);
 			session.setAttribute("marcas", marcas);
+			request.getRequestDispatcher("page.jsp").forward(request, response);
+			break;
+		}
+		case "vamarca": {
+			int idmarca = Integer.parseInt(request.getParameter("idmarca"));
+			try {
+				bicis = new DAOBicis().getBicis(con, idmarca, "");
+				marcas = new DAOMarcas().getAllMarcas(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			session.setAttribute("bicis", bicis);
+			request.getRequestDispatcher("page.jsp").forward(request, response);
+			break;
+		}
+		case "vaorden": {
+			String orden = request.getParameter("orden");
+			try {
+				bicis = new DAOBicis().getBicis(con, 0, orden);
+				marcas = new DAOMarcas().getAllMarcas(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			session.setAttribute("orden", orden);
+			session.setAttribute("bicis", bicis);
+			request.getRequestDispatcher("page.jsp").forward(request, response);
+			break;
+		}
+		case "fav": {
+			int id = Integer.parseInt(request.getParameter("idbici"));
+			int fav = Integer.parseInt(request.getParameter("fav"));
+			try {
+				new DAOBicis().actualizaFav(id, fav, con);
+				String orden = (String) session.getAttribute("orden");
+				bicis = new DAOBicis().getBicis(con, 0, orden);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			session.setAttribute("bicis", bicis);
 			request.getRequestDispatcher("page.jsp").forward(request, response);
 			break;
 		}

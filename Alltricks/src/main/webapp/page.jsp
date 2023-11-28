@@ -26,7 +26,9 @@
                 AllTricks - sufiDev
             </div>
             <span>
+            	<a href="Controller?op=inicio">            	
                 <img src="img/logo-white.png" class="abs-img" alt="logo">
+            	</a>
             </span>
         </div>
     </header>
@@ -47,8 +49,8 @@
                     <select class="form-select form-select-lg" name="orden" id="" onchange="this.form.submit()">
                         <option value="null" disabled selected hidden>Elija Orden</option>
                         <option value="marca">Marca</option>
-                        <option value="precio asc">Precio Ascendente</option>
-                        <option value="precio desc">Precio Descendente</option>
+                        <option value="precio">Precio Ascendente</option>
+                        <option value="precio DESC">Precio Descendente</option>
                     </select>
                 </form>
             </div>
@@ -61,23 +63,23 @@
             <div class="row">
         	<c:forEach items="${bicis}" var="bici">
                 <!-- 3, 2, 1 cols -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="card pb-5">
+                <div class="col-md-4 col-sm-6 my-3 d-flex">
+                    <div class="card pb-5 flex-fill">
                         <img class="card-img-top" src="${bici.foto}" alt="Title">
                         <div class="card-body">
                             <h4 class="card-title">${bici.nombremarca}</h4>
                             <p class="card-text">${bici.descripcion}</p>
                             <p><strong>&euro;${bici.precio}</strong></p>
-                        </div>
+                        </div>ç
                         <c:choose>
 	                        <c:when test="${bici.fav==0}">
-	                        	<a href="Controller?op=fav"
+	                        	<a href="Controller?op=fav&idbici=${bici.id}&fav=${bici.fav}"
                             	   class="star-primary text-decoration-none display-6 position-absolute bottom-0 start-0 ms-2 mb-2">
                             	   &#9733;
                         		</a>
 	                        </c:when>
 	                        <c:when test="${bici.fav==1}">
-	                        	<a href="Controller?op=fav"
+	                        	<a href="Controller?op=fav&idbici=${bici.id}&fav=${bici.fav}"
                             	   class="star-warning text-decoration-none display-6 position-absolute bottom-0 start-0 ms-2 mb-2">
                             	   &#9733;
                         		</a>

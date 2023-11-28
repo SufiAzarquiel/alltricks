@@ -1,6 +1,7 @@
 package daos;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import model.Bici;
 
 public class DAOBicis {
-	public ArrayList<Bici> getBicis(Connection con, int marca, int orden) throws SQLException {
+	public ArrayList<Bici> getBicis(Connection con, int marca, String orden) throws SQLException {
 		ResultSet rs;
 		ArrayList<Bici> lista = new ArrayList<Bici>();
 
@@ -19,24 +20,11 @@ public class DAOBicis {
 		if (marca != 0) {
 			ordenSql += " WHERE marca=" + marca;
 		}
-		if (orden != 0) {
-			switch (orden) {
-			case 1: { // Ascendiente
-				ordenSql += " ORDER BY precio";
-				break;
-			}
-			case 2: { // Descendiente
-				ordenSql += " ORDER BY precio DESC";
-				break;
-			}
-			case 3: { // Marca
-				ordenSql += " ORDER BY marca";
-			}
-			default:
-				throw new IllegalArgumentException("Unexpected value: " + orden);
-			}
+		if (orden != "") {
+			ordenSql += " ORDER BY " + orden;
 		}
 		rs = st.executeQuery(ordenSql);
+		System.out.println(ordenSql);
 
 		while (rs.next()) {
 			Bici bici = new Bici();
@@ -53,7 +41,7 @@ public class DAOBicis {
 			ResultSet rsMarca = stMarca.executeQuery(ordenSqlMarca);
 			rsMarca.next();
 			bici.setNombremarca(rsMarca.getString("nombre"));
-			lista.add(bici);
+			rsMarca.close();
 
 			lista.add(bici);
 		}
@@ -62,4 +50,18 @@ public class DAOBicis {
 
 		return lista;
 	}
+
+	public int actualizaFav(int idBici, int currentFav, Connection con) throws SQLException {
+		int actualizados = -1;
+		int fav = (currentFav == 0) ? 1 : 0;
+		String ordenSQL = "UPDATE bici SET fav=? where id=?";
+		PreparedStatement st = con.prepareStatement(ordenSQL);
+		st.setInt(1, fav);
+		st.setInt(2, idBici);
+		actualizados = st.executeUpdate();
+		st.close();
+
+		return actualizados;
+	}
+
 }

@@ -12,7 +12,7 @@ public class View {
 	public static void main(String[] args) {
 		try {
 			Connection con = Conexion.conecta();
-			ArrayList<Bici> bicis = new DAOBicis().getBicis(con, 2, 1);
+			ArrayList<Bici> bicis = new DAOBicis().getBicis(con, 2, "precio DESC");
 			for (Bici bici : bicis) {
 				System.out.println(bici);
 			}
